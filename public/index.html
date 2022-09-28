@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Mi Aplicación con Sockets</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="./js/main.js"></script>
+    </head>
+
+<body>
+    <h1 class="text-center">Formulario de Ingreso de Productos</h1>
+    <div class="container mt-3">
+        <div class="jumbotron">
+            <div class="d-flex">
+                <h3>Ingrese Producto</h3> 
+                <div><img  width="50" src="https://i.postimg.cc/1tVPC6Jg/handlebars.png" alt="" srcset=""></div>
+            </div>
+            <br>
+
+            <form action="/api/productos/guardar" method="post" autocomplete="off">
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input class="form-control" type="text" name="title" id="nombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="nombre">Precio</label>
+                    <input class="form-control" type="number" step="0.01" name="price" id="precio" required>
+                </div>
+                <div class="form-group">
+                    <label for="foto">Foto URL</label>
+                    <input class="form-control" type="url" name="thumbnail" id="foto" required>
+                </div>
+                <button class="btn btn-success mt-3">Registrar</button>
+            </form>
+            <div class="mt-2">
+                <a href="/" class="btn btn-danger" role="button">Ir al Formulario</a>
+                <a href="/api/productos/vista" class="btn btn-info" role="button">Ir a la Lista</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-3">
+
+        <script>
+            // compile the template
+            var template = Handlebars.compile("Handlebars <b>{{doesWhat}}</b>");
+            // execute the compiled template and print the output to the console
+            console.log(template({ doesWhat: "rocks!" }));
+          </script>
+
+        <div>
+            {{#if hayProductos}}
+                <div class="table-responsive">
+                    <table class="table table-dark">
+                        <tr style="color: rgb(255, 255, 0);">
+                            <th>Nombre</th> <th>Precio</th> <th>Foto</th>
+                        </tr>
+                        {{#each productos}}
+                            <tr>
+                                <td style="color: rgb(254, 254, 245);">{{this.title}}</td> 
+                                <td style="color: rgb(254, 254, 245);">${{this.price}}</td> 
+                                <td> <img width="50" src={{this.thumbnail}} alt="not found" > </td>
+                            </tr>
+                        {{/each}}
+                    </table>
+                </div>
+            {{else}}
+                <h3 class="alert alert-warning">No se encontraron productos</h3>
+            {{/if}}
+        </div>
+    </div>
+    <div class=" jumbotron container mt-3">
+        <h2>Centro de Mensajes</h2>
+        <div>
+            <form onsubmit="return addMessage(this)">
+                <input type="email" id="username" placeholder="Escribe tu email" /> <br>
+                <div id="mensajes"></div>
+                <input type="text" id="texto" placeholder="Ingresá tu mensaje..." />
+                <input type="submit" value="Enviar" class="btn btn-info" />
+            </form>
+        </div>
+    </div>
+</body>
+</html>
