@@ -11,6 +11,15 @@ const handlebars = require("express-handlebars");
 
 const fs = require('fs');
 
+async function escribir() {
+    try {
+        await fs.promises.writeFile('../datos.txt', messages )
+    } catch (error) {
+        console.log('Hubo un error al escribir el archivo')
+    }
+}
+
+
 //----------------RUTAS-----------------------
 const Productos = require('./api/productos.js');
 
@@ -99,6 +108,8 @@ io.on('connection', (socket) => {
     console.log("Se conecto un usuario");
 
     socket.emit('messages', messages);
+
+    escribir();
 
     socket.on("new-message", (data) =>{
         messages.push(data);
